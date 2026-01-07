@@ -4,7 +4,7 @@ from curses import wrapper
 def display_main_menu(stdscr):
     curses.curs_set(0)
     curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_CYAN)
+    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)
 
     current_option = 0
     options = ["Regular Typing", "Code Typing"]
@@ -20,21 +20,14 @@ def display_main_menu(stdscr):
         stdscr.addstr(h // 2 - 5, w // 2 - len(title) // 2, title, curses.A_BOLD | curses.color_pair(1))
         stdscr.addstr(h // 2 - 4, w // 2 - len(subtitle) // 2, subtitle, curses.color_pair(1))
 
-        # Menu Box
-        box_h, box_w = 5, 24
-        box_y, box_x = h // 2 - 2, w // 2 - 12
-        box = curses.newwin(box_h, box_w, box_y, box_x)
-        box.box()
-
         for i, option in enumerate(options):
-            y, x = 2, 12 - len(option) // 2
+            y, x = h // 2 - 1 + i, w // 2 - len(option) // 2
             if i == current_option:
-                box.addstr(y + i, x, option, curses.color_pair(2))
+                stdscr.addstr(y, x, option, curses.color_pair(2) | curses.A_BOLD)
             else:
-                box.addstr(y + i, x, option, curses.color_pair(1))
+                stdscr.addstr(y, x, option, curses.color_pair(1))
 
         stdscr.refresh()
-        box.refresh()
 
         key = stdscr.getch()
 
